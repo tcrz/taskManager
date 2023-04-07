@@ -43,7 +43,7 @@ Registering an existing user with the same email will throw an error:
 }
 ```
 
-#### ```POST '/users/login'```
+#### POST '/users/login'
 The login endpoint requires email and password.   
 On successful login the token and user details are returned from the server:
 ```
@@ -111,7 +111,7 @@ These given fields will also be a means by which we filter tasks.
 }
 ```
 ### Endpoints
-#### ```GET '/tasks'```  
+#### GET '/tasks'
 Fetches all tasks for the current user  
 Response: 
 ```
@@ -133,7 +133,7 @@ Response:
 
 ```
 
-### ```GET '/tasks/:id'```
+### GET '/tasks/:id
 Fetches task with given id
 Response: 
 ```
@@ -153,7 +153,7 @@ Response:
 
 ```
 
-#### ```POST '/tasks'```
+#### POST '/tasks'
 Creates a task
 sample body (note that all the fields are required):
 ```
@@ -171,7 +171,7 @@ On success, the updated task is returned:
 }
 ```
 
-#### ```PUT '/tasks/:id'```
+#### PUT '/tasks/:id'
 Updates task with given id.
 on success, the updated task is returned: 
 ```
@@ -192,7 +192,7 @@ on success, the updated task is returned:
 
 ```
 
-#### ```DELETE '/tasks/:id'```
+#### DELETE '/tasks/:id'
 Deleltes task with given id.
 response (on success): 
 ```
