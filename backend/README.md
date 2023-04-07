@@ -11,7 +11,7 @@ set up your model schemas
 # Task Manager Backend
 
 ## Authentication
-#### ```POST '/users/register'```
+#### POST '/users/register'
 Registration requires email, password and username: 
 ```
 {
