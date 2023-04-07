@@ -1,0 +1,97 @@
+import React, { useContext, useState } from 'react'
+import { FaArrowLeft, FaRegCalendarAlt, FaTasks, FaClipboardCheck } from "react-icons/fa";
+import user from "../assets/user.png"
+import { NavLink } from "react-router-dom";
+import { AuthContext } from '../context/authContext';
+import { VscDashboard, VscTasklist, VscChecklist, VscNotebook, VscArrowLeft, VscMenu } from "react-icons/vsc";
+
+const Sidebar = () => {
+  const [open, setOpen] = useState(true)
+  const sidebarWidth = open ? "w-1/5" : "w-20"
+  const { logOut } = useContext(AuthContext);
+
+  const logout = (path) => {
+    if (path === "/"){
+      logOut()
+    }
+  }
+
+  const menuItems = [
+    {
+      rootpath: "/workspace",
+      path: "/workspace/dashboard",
+      name: "Dashboard",
+      icon: <VscDashboard />,
+    },
+    {
+      rootpath: "/workspace/meetings",
+      path: "/workspace/meetings",
+      name: "Meetings",
+      icon: <FaRegCalendarAlt />,
+    },
+    {
+      rootpath: "/workspace/policies",
+      path: "/workspace/policies",
+      name: "Policies",
+      icon: <VscTasklist />,
+    },
+    {
+      rootpath: "/workspace/tasks",
+      path: "/workspace/tasks",
+      name: "Tasks",
+      icon: <VscNotebook />,
+    },
+    {
+      path: "/",
+      name: "Logout",
+      icon: <VscArrowLeft />,
+    }
+  ];
+
+  return (
+    <div className={`fixed top-0 bottom-0 p-1 ${sidebarWidth} bg-gray-100 text-white border border-r drop-shadow-md relative transition-all duration-100`}>
+      
+       {/* MENU ITEMS CONTAINER */}
+       <div className={`borderr border-red-500 w-full h-full flex flex-col ${!open && " items-center"} justify-between`}>
+          {/* LOGO */}
+          <div>
+            <div className={`p-2 inline-flex justify-between gap-2 mb-10 borderr-b w-full items-center border-b borrder-gray-600`}>
+              {/* <FaMailBulk className={`block float-left text-4xl bg-dark-purple rounded-md`}/> */}
+              {/* <h1 className={`text-2xl ${!open && "hidden"}`}>VanCorp</h1> */}
+              <p className={`text-gray-400 ${!open && "hidden"}`}>Welcome,&nbsp;user</p>
+              <VscMenu onClick={()=>setOpen(prev => !prev)} className={`p-1 text-3xl cursor-pointer text-gray-400 ${!open && "rotate-180"}`}/>
+            </div>
+
+            {/* MENU ITEMS */}
+            <div className="menu-items borderr border-white flex flex-col gap-1">
+              {menuItems.map((item, index) => {
+                  return (
+                    <NavLink onClick={()=>logout(item.path)} className="duration-200 flex gap-4 p-3 items-center text-gray-400 hover:bg-gray-200 hover:text-blue-500" to={item.path} key={index} >
+                      <div className="text-xl">{item.icon}</div>
+                      <div className={`item-text ${!open && "hidden"}`}>
+                        <p>{item.name}</p>
+                      </div>
+                    </NavLink>
+                  );
+                })}
+            </div>
+          </div>
+
+          {/* USER TAB */}
+          <div className="pl-2 pb-1 pt-2 rounded-sm flex gap-2 items-center borderr-t border-gray-700">
+           {/* <img src={user} alt="user" className="w-10 h-10 rounded-full"/> */}
+           <div className="rounded-full p-1 pl-3 pr-3 bg-emerald-600">
+              <p className=" text-white text-2xl">D</p>
+           </div>
+           {open && <div className="text-sm">
+              <p className="text-gray-400">Damien Johnson</p>
+              <p className="text-gray-400">Admin</p>
+           </div>}
+          
+          </div>
+       </div>
+    </div>
+  )
+}
+
+export default Sidebar

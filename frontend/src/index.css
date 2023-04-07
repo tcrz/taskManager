@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+} */
+
+@layer base {
+  html {
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+  }
+
+  /* SCROLL BAR */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background:none;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded
+    /* background: #bababa; */
+    /* border-radius: 10px; */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a4a3a3;
+  }
+
+}
+
+@layer components {
+
+  .main-label {
+    font-size: .8em !important;
+    font-weight: 600 !important;
+  }
+
+  .input-with-icon input{
+    padding-left: 1.8rem;
+  }
+
+  .input-with-icon svg {
+    width: .7em;
+    height: .7em
+  }
+
+  .menu-items a.active {
+    /* @apply border-l-2 border-emerald-600 bg-gray-700 text-white */
+    @apply border-l-2 border-blue-500 bg-gray-200 text-blue-500 
+  }
+
+  .content-section {
+    overflow-y: scroll;
+    height: 84vh;
+    /* border: .2em solid blue */
+  }
+  
+  /* MODAL */
+
+
+  /* REACT SELECT */
+  .basic-multi-select.select__menu css-1mn {
+    background-color: red;
+  }
+
+  .basic-multi-select .css-13cymwt-control {
+    border-radius: 0.5rem;
+  }
+
+  .basic-multi-select .css-1jqq78o-placeholder {
+    font-size: .85em
+  }
+
+  table.meetings {
+    
+  }
+
+  /* ACCORDION */
+  svg[data-testid|="flowbite-accordion-arrow"] {
+    display: none
+  }
+}

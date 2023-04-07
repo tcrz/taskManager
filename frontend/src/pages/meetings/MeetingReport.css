@@ -1,0 +1,25 @@
+.report-container {
+    height: 100%
+}
+
+.report {
+    flex: .6
+}
+
+.meeting-details {
+    flex: .4
+}
+
+.report, .meeting-details {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.meeting-details .main-label {
+    @apply text-gray-400
+}
+
+.report-input svg {
+    width: .7em;
+    height: .7em
+}
