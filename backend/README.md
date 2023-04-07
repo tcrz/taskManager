@@ -133,7 +133,7 @@ Response:
 
 ```
 
-### GET '/tasks/:id
+#### GET '/tasks/:id
 Fetches task with given id
 Response: 
 ```
