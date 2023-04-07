@@ -11,7 +11,7 @@ set up your model schemas
 # Task Manager Backend
 
 ## Authentication
-```POST '/users/register'```
+#### ```POST '/users/register'```
 Registration requires email, password and username: 
 ```
 {
@@ -22,7 +22,7 @@ Registration requires email, password and username:
 ```
 
 Passwords are hashed and stored in db.   
-On successful registration, this response is returned: 
+On successful registration, this user's details are returned: 
 ```
 {
   "message": "Registration successful",
@@ -43,7 +43,7 @@ Registering an existing user with the same email will throw an error:
 }
 ```
 
-```POST '/users/login'```
+#### ```POST '/users/login'```
 The login endpoint requires email and password.   
 On successful login the token and user details are returned from the server:
 ```
