@@ -2,7 +2,7 @@ import { Label, Radio, TextInput } from 'flowbite-react'
 import React from 'react'
 import { RxDotFilled } from "react-icons/rx";
 
-const MeetingDetails = () => {
+const TaskDetails = () => {
   const agenda = ["talk about salaries", "discuss gov. contract"]
   return (
     <div className="details p-2 space-y-6 borderr">
@@ -143,4 +143,4 @@ const MeetingDetails = () => {
   )
 }
 
-export default MeetingDetails
+export default TaskDetails

@@ -4,7 +4,7 @@ import { FaRegTimesCircle } from 'react-icons/fa'
 import { RxDotFilled } from 'react-icons/rx'
 import MultiSelect from '../../components/MultiSelect'
 
-const NewMeeting = (props) => {
+const NewTask = (props) => {
     const [meetingType, setMeetingType] = useState("In-person")
     const [agenda, setAgenda] = useState([])
     const [agendaItem, setAgendaItem] = useState("")
@@ -140,4 +140,4 @@ const NewMeeting = (props) => {
   )
 }
 
-export default NewMeeting
+export default NewTask

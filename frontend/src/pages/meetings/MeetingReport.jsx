@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { FaPlus, FaRegCircle, FaRegTimesCircle } from 'react-icons/fa'
 import { BiNotepad, BiTask } from "react-icons/bi";
 import MultiSelect, { options } from '../../components/MultiSelect'
-import MeetingDetails from './MeetingDetails'
+import MeetingDetails from './TaskDetails'
 import "./MeetingReport.css"
 import Select from 'react-select';
 import { RxDotFilled } from 'react-icons/rx';

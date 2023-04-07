@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import Toolbar, { SubToolbar } from '../../components/Toolbar'
 import { FaPlusCircle } from "react-icons/fa";
-import NewMeeting from './NewMeeting';
-import "./Meetings.css"
+import NewMeeting from './NewTask';
+import "./Tasks.css"
 import { Outlet, useNavigate } from 'react-router';
 import MeetingReport from './MeetingReport';
 import { VscAdd } from "react-icons/vsc";
 
-const Meetings = () => {
+const Tasks = () => {
   const [newMeetingOpen, setNewMeetingOpen] = useState(false)
   const [meetingReportOpen, setMeetingReportOpen] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
     if (newMeetingOpen) {
-      navigate("/workspace/meetings/new-meeting")
+      navigate("/workspace/tasks/new-task")
     } else {
-      navigate("/workspace/meetings")
+      navigate("/workspace/tasks")
     }
   }, [newMeetingOpen])
   // open ? navigate("/workspace/meetings/new-meeting") : 
@@ -31,7 +31,7 @@ const Meetings = () => {
   //   navigate("/workspace/meetings/new-meeting")
   // }
   console.log(open)
-  const meetingData = [
+  const tasksData = [
     {
       title: "Conference to discuss new development",
       status: "completed",
@@ -64,8 +64,8 @@ const Meetings = () => {
         <VscAdd className="text-blue-500"/>
         <p className="">Add new task</p>
         </div>
-        <div className="meetings-table-container relative overflow-y-scroll">
-          <table className="meetings-table w-full text-sm text-gray-500 text-center">
+        <div className="tasks-table-container relative overflow-y-scroll">
+          <table className="tasks-table w-full text-sm text-gray-500 text-center">
             <colgroup>
                 <col style={{width:"40%"}} />
                 <col style={{width:"25%"}} />
@@ -89,22 +89,22 @@ const Meetings = () => {
                 </tr>
             </thead>
             <tbody>
-                {meetingData.map((meeting) => {
-                  const statusColor = meeting.status === "completed" ? "bg-emerald-100 text-emerald-500" : "bg-amber-100 text-amber-400"
-                  const priorityColor = meeting.priority === "high" ? "bg-red-100 text-red-500" : "bg-blue-100 text-blue-400"
+                {tasksData.map((task) => {
+                  const statusColor = task.status === "completed" ? "bg-emerald-100 text-emerald-500" : "bg-amber-100 text-amber-400"
+                  const priorityColor = task.priority === "high" ? "bg-red-100 text-red-500" : "bg-blue-100 text-blue-400"
                   return (
                     <tr onClick={()=>setMeetingReportOpen(true)} className="cursor-pointer bg-white border-b hover:bg-gray-100 hover:text-black">
                         <td scope="row" className="py-2 font-medium whitespace-nowrap dark:text-white">
-                            <p>{meeting.title}</p>
+                            <p>{task.title}</p>
                         </td>
                         <td className={`py-2 flex borderr justify-center items-center`}>
-                          <p className={` p-1 px-3 ${statusColor} rounded-md`}>{meeting.status}</p>
+                          <p className={` p-1 px-3 ${statusColor} rounded-md`}>{task.status}</p>
                         </td>
                         <td className="py-2">
-                          <p>{meeting.date}</p>
+                          <p>{task.date}</p>
                         </td>
                         <td className="py-2 flex borderr justify-center items-center">
-                          <p className={` p-1 px-3 ${priorityColor} rounded-md`}>{meeting.priority}</p>
+                          <p className={`p-1 px-3 ${priorityColor} rounded-md`}>{task.priority}</p>
                         </td>
                     </tr>
                   )
@@ -117,4 +117,4 @@ const Meetings = () => {
   )
 }
 
-export default Meetings
+export default Tasks

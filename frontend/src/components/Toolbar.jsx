@@ -1,4 +1,4 @@
-import { TextInput } from 'flowbite-react'
+import { Dropdown, TextInput } from 'flowbite-react'
 import React from 'react'
 import { FaBell, FaSearch } from 'react-icons/fa'
 
@@ -10,7 +10,23 @@ export const SubToolbar = (props) => {
                 <div className="rounded-full border border-gray-400  p-1 pl-2 pr-2">
                     <p style={{fontSize: ".75em"}} className="font-medium text-gray-500">{props.count}</p>
                 </div>
-            
+            </div>
+            <div>
+            <Dropdown
+            label="Sort"
+            size="sm"
+            inline={true}
+            >
+            <Dropdown.Item>
+                Status
+            </Dropdown.Item>
+            <Dropdown.Item>
+                Due Date
+            </Dropdown.Item>
+            <Dropdown.Item>
+                Priority
+            </Dropdown.Item>
+            </Dropdown>
             </div>
             <div className="w-1/4">
             <TextInput className="input-with-icon"

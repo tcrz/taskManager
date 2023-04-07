@@ -4,12 +4,12 @@ import './App.css'
 import Sidebar from './components/Sidebar'
 import WorkSpace from './pages/dashboard/WorkSpace'
 import Dashboard from './pages/dashboard/dashboard/Dashboard'
-import Meetings from './pages/meetings/Meetings'
 import SignIn from './pages/signIn/SignIn'
 import { AuthContext } from './context/authContext'
 import Homepage from './pages/homepage/Homepage'
-import NewMeeting from './pages/meetings/NewMeeting'
 import Register from './pages/register/Register'
+import Tasks from './pages/meetings/Tasks'
+import NewTask from './pages/meetings/NewTask'
 
 
 
@@ -63,8 +63,8 @@ function App() {
         {/* AUTH ROUTES */}
         <Route path="/workspace" element={ <Protected authenticated={authenticated}><WorkSpace /></Protected>}>
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="meetings" element={<Meetings />}>
-            <Route path="new-meeting" element={<NewMeeting />} />
+          <Route path="tasks" element={<Tasks />}>
+            <Route path="new-task" element={<NewTask />} />
           </Route>
           <Route path="*" element={<Navigate to='dashboard' replace />} />
         </Route>

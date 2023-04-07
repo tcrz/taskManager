@@ -1,11 +1,11 @@
 /* @tailwind components; */
 
-.meetings-table-container {
+.tasks-table-container {
     height: 80%;
     overflow-y: scroll;
 }
 
-table.meetings-table {
+table.tasks-table {
     padding-left: 7px;
     border-collapse: separate;
     border-spacing: 0;
@@ -16,36 +16,36 @@ table.meetings-table {
 
 }
 
-.meetings-table thead th {
+.tasks-table thead th {
     position: sticky;
     top:0;
     height: 100%;
     background: #e5e7eb90
 }
 
-.meetings-table th  {
+.tasks-table th  {
     position: sticky;
     top: -1px;
 }
 
-.meetings-table tbody {
+.tasks-table tbody {
     height: 80%;
     overflow-y: scroll;
 }
 
 
-.meetings-table tr {
+.tasks-table tr {
     border: 1px solid red;
     /* border-top: 1px solid #EFEFEF;
     border-bottom: 1px solid #EFEFEF;
     border-right: 1px solid #EFEFEF; */
 }
 
-.meetings-table tr:nth-child(even) {
+.tasks-table tr:nth-child(even) {
     background-color: #f3f4f6ba;
 }
 
-.meetings-table td p {
+.tasks-table td p {
     margin: 0;
     /* padding: 4px 2px; */
     /* width: 90%; */

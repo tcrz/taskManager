@@ -95,6 +95,17 @@
     
   }
 
+  /* DROPDOWN MENU */
+  div[data-testid|="flowbite-tooltip-target"] button {
+    font-size: .86em;
+  }
+
+  div[data-testid|="flowbite-tooltip-target"] button:hover,
+  div[data-testid|="flowbite-tooltip-target"] button:focus {
+    @apply text-blue-500
+  }
+
+
   /* ACCORDION */
   svg[data-testid|="flowbite-accordion-arrow"] {
     display: none

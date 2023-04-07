@@ -24,22 +24,16 @@ const Sidebar = () => {
       icon: <VscDashboard />,
     },
     {
-      rootpath: "/workspace/meetings",
-      path: "/workspace/meetings",
-      name: "Meetings",
-      icon: <FaRegCalendarAlt />,
-    },
-    {
-      rootpath: "/workspace/policies",
-      path: "/workspace/policies",
-      name: "Policies",
-      icon: <VscTasklist />,
-    },
-    {
       rootpath: "/workspace/tasks",
       path: "/workspace/tasks",
       name: "Tasks",
       icon: <VscNotebook />,
+    },
+    {
+      rootpath: "/workspace/policies",
+      path: "/workspace/completed",
+      name: "Completed",
+      icon: <VscTasklist />,
     },
     {
       path: "/",
@@ -85,7 +79,7 @@ const Sidebar = () => {
            </div>
            {open && <div className="text-sm">
               <p className="text-gray-400">Damien Johnson</p>
-              <p className="text-gray-400">Admin</p>
+              <p className="text-gray-400">User</p>
            </div>}
           
           </div>
