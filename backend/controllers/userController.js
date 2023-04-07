@@ -35,6 +35,10 @@ const loginUser = asyncHandler(async (req, res) => {
     const {email, password} = req.body
     validateRequestBody(req.body, res)
     const user = await User.findOne({ email })
+    if (!user) {
+        res.status(401)
+        throw new Error("Invalid email or password")
+    }
     //compare password with hashed password in db and return token and user's data
     const doPasswordsMatch = await bcrypt.compare(password, user.password)
     if (user && doPasswordsMatch) {
@@ -48,7 +52,8 @@ const loginUser = asyncHandler(async (req, res) => {
         process.env.JWT_SECRET, {expiresIn: "3m"})
         res.status(200).json({ message: "Login successful", token, user: {username: user.username, email: user.email} })
     } else {
-        res.status(401).json({message: "Invalid email or password"})
+        res.status(401)
+        throw new Error("Invalid email or password")
     }
 })
 
