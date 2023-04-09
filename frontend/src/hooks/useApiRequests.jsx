@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../context/authContext";
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://taskmanager-api-z99f.onrender.com'
 })
 
 const useApiRequests = () => {

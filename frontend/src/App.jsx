@@ -55,6 +55,7 @@ function App() {
   const logOut = () => {
     localStorage.setItem("authenticated", false)
     setAuthenticated(false)
+    localStorage.clear()
   }
 
   const context = {
