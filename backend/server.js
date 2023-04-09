@@ -11,9 +11,12 @@ connectDB()
 
 app.use(cors())
 app.use(express.json())
+
 app.use("/tasks", taskRoutes)
 app.use("/users", userRoutes)
-
+app.use("/", (req, res) => {
+    res.status(200).json({status: "OK"})
+})
 
 app.use(errorHandler)
 const port = process.env.PORT || 5000
