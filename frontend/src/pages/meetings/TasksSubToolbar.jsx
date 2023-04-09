@@ -3,7 +3,7 @@ import React from 'react'
 import { FaBell, FaSearch } from 'react-icons/fa'
 import { VscClose } from 'react-icons/vsc'
 
-export const SubToolbar = (props) => {
+const TasksSubToolbar = (props) => {
     return (
         <header className='pl-6 pr-6 m-0 h-9v border-b border-grey-400 flex items-center justify-between bg-white shadow-inner shadow-gray-300/50'>
             <div className="inline-flex items-center gap-1 borderr">
@@ -13,7 +13,7 @@ export const SubToolbar = (props) => {
                 </div>
             </div>
             <div>
-            <Dropdown
+            {!props.searchQuery && <Dropdown
             label="Sort"
             size="sm"
             inline={true}
@@ -27,7 +27,7 @@ export const SubToolbar = (props) => {
             <Dropdown.Item onClick={()=>props.setSortType("Priority")}>
                 Priority
             </Dropdown.Item>
-            </Dropdown>
+            </Dropdown>}
             </div>
             {props.sortType && <div className="flex gap-1 items-center bg-gray-200 p-1 rounded-md">
                 <p className="text-xs" style={{fontSize: ".65em"}}>Sorted by {props.sortType}</p>
@@ -41,28 +41,12 @@ export const SubToolbar = (props) => {
                 sizing="sm"
                 required={true}
                 icon={FaSearch}
+                value={props.searchQuery}
+                onChange={props.handleSearchQueryOnChange}
             />
             </div>
         </header>
     )
 }
 
-const Toolbar = () => {
-  return (
-    <header className='bg-white pl-8 pr-8 h-8v border-b border-grey-400 text-center'>
-        {/* <div className="w-1/4">
-        <TextInput className="input-with-icon"
-            id="search"
-            type="text"
-            placeholder="Search"
-            sizing="sm"
-            required={true}
-            icon={FaSearch}
-        />
-        </div> */}
-        {/* <FaBell className='text-2xl float-right text-dark-blue'/> */}
-    </header>
-  )
-}
-
-export default Toolbar
+export default TasksSubToolbar

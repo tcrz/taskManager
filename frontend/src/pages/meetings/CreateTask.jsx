@@ -11,8 +11,8 @@ import useApiRequests from '../../hooks/useApiRequests'
 
 const todayDate = moment(moment().toDate()).format("YYYY-MM-DD")
 
-const CreateTask = ({setTasks, open, setOpen, refetch}) => {
-    const { httpAuthPostAsync, httpAuthGetAsync } = useApiRequests()
+const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) => {
+    const { httpAuthPostAsync, httpAuthPutAsync } = useApiRequests()
     const [title, setTitle] = useState("")
     const [dueDate, setDueDate] = useState(todayDate)
     const [status, setStatus] = useState("uncompleted")
@@ -20,11 +20,39 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(null)
     const titleInputRef = useRef(null)
+    console.log(priority)
     // console.log(titleInputRef.current)
+
+    const resetFields = () => {
+        setTitle("")
+        setDueDate(todayDate)
+        setStatus("uncompleted")
+        setPriority("high")
+    }
 
     useEffect(() => {
         titleInputRef.current.focus()
     }, [title])
+
+    useEffect(() => {
+        if (task) {
+            setTitle(task.title)
+            setDueDate(moment(task.dueDate).format('YYYY-MM-DD'))
+            setStatus(task.status)
+            setPriority(task.priority)
+        }
+        
+    }, [task])
+
+    const handleModalClose = () => {
+        resetFields()
+        if (task) {
+            setOpen(false)
+            setCurrentTask(null)
+        } else {
+            setOpen(false)
+        }
+    }
 
     const handleTaskTitleValueChange = (e) => {
         console.log(e.target.value)
@@ -45,6 +73,34 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
       setStatus(e.target.value)
     }
 
+    const handleUpdateTask = async (e) => {
+        e.preventDefault()
+        const taskBody = {
+            title,
+            status,
+            priority,
+            dueDate
+          }
+          try {
+            setLoading(true)
+            setAlert(null)
+            const response = await httpAuthPutAsync(`/tasks/${task._id}`, taskBody)
+            console.log(response)
+            refetch()
+            setOpen(false)
+            resetFields()
+          } catch(err) {
+            if (err.response){
+              setAlert({type: "failure", message: err.response.data.message})
+            } else {
+                setAlert({type: "failure", message: "Sorry, an error occurred"})
+            }
+            console.log(err)
+          }
+          setLoading(false)
+          console.log(taskBody)
+    }
+
     const handleCreateTask = async (e) => {
         e.preventDefault()
         const taskBody = {
@@ -61,6 +117,7 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
           setTasks(prev => [response.task, ...prev])
           refetch()
           setOpen(false)
+          resetFields()
         } catch(err) {
           if (err.response){
             setAlert({type: "failure", message: err.response.data.message})
@@ -77,11 +134,11 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
     // dismissible={true}
     show={open}
     size="xl"
-    onClose={()=>setOpen(false)}
+    onClose={()=>handleModalClose()}
   >
-    <form onSubmit={handleCreateTask} >
+    <form onSubmit={task ? handleUpdateTask : handleCreateTask} >
     <Modal.Header className="!p-3">
-      Add Task Details
+       {task ? "Update Task Details" : "Add Task Details"}
     </Modal.Header>
     <Modal.Body style={{overflowY:"scroll"}}>
         <div className="space-y-6 borderr">
@@ -119,7 +176,8 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
                             id="high"
                             name="priority"
                             value="high"
-                            defaultChecked={true}
+                            checked={priority === "high"}
+                            onChange={()=>{}}
                             />
                             <Label htmlFor="in-person">High</Label>
                         </div>
@@ -129,6 +187,8 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
                             id="low"
                             name="priority"
                             value="low"
+                            checked={priority === "low"}
+                            onChange={()=>{}}
                             />
                             <Label htmlFor="online">Low</Label>
                         </div>
@@ -142,7 +202,8 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
                             id="uncompleted"
                             name="status"
                             value="uncompleted"
-                            defaultChecked={true}
+                            checked={status === "uncompleted"}
+                            onChange={()=>{}}
                             />
                             <Label htmlFor="online">Uncompleted</Label>
                         </div>
@@ -151,6 +212,8 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
                             id="completed"
                             name="status"
                             value="completed"
+                            checked={status === "completed"}
+                            onChange={()=>{}}
                             />
                             <Label htmlFor="completed">Completed</Label>
                         </div>
@@ -160,10 +223,10 @@ const CreateTask = ({setTasks, open, setOpen, refetch}) => {
         </div>
     </Modal.Body>
     <Modal.Footer className="!p-3 justify-end">
-    <Button color="grey" className="text-gray-400 border-none" onClick={()=>setOpen(false)}>
+    <Button color="grey" className="text-gray-400 border-none" onClick={()=>handleModalClose()}>
        Cancel
       </Button>
-      <LoadingButton type="submit" disabled={loading} loading={loading} className="'block text-sm text-white bg-blue-500 border border-blue-500 p-2 px-4 rounded-md hover:bg-blue-600 duration-150" text="Create Task" />
+      <LoadingButton type="submit" disabled={loading} loading={loading} className="'block text-sm text-white bg-blue-500 border border-blue-500 p-2 px-4 rounded-md hover:bg-blue-600 duration-150" text={task ? "Update Task" : "Create Task"} />
     </Modal.Footer>
     </form>
   </Modal>

@@ -17,7 +17,7 @@ const ValidateIdParam = (id, res) => {
 
 // get tasks
 const getTasks = asyncHandler(async (req, res) => {
-    const tasks = await Task.find({user_id: req.user._id})
+    const tasks = await Task.find({user_id: req.user._id}).sort({"createdAt": -1})
     res.status(200).json({tasks})
 })
 

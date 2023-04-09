@@ -10,6 +10,7 @@ import moment from "moment";
 import useApiRequests from '../../hooks/useApiRequests';
 import { useQuery } from 'react-query'
 import { Spinner } from 'flowbite-react';
+import TasksSubToolbar from './TasksSubToolbar';
 
 const dateToStrFormat = () => {
   const date = moment(dateStr, 'YYYY-MM-DD');
@@ -60,21 +61,21 @@ const TasksLoadingSpinner = () => {
   )
 }
 
-const EmptyTasksView = ({error, refetch}) => {
+const EmptyTasksView = ({text, error, refetch}) => {
   return (
     <>
       <TableHeading></TableHeading>
       <div className="flex justify-around items-center border bbg-gray-400 ml-2" style={{height: "90%"}}>
-      {!error ? <p className="text-gray-400">You have no tasks. Add some?</p> 
+      {!error ? <p className="text-gray-400">{text}</p> 
       :
-      <p className="text-gray-400">Sorry, an error occurred. <span className="text-blue-500">Try again</span></p>
+      <p className="text-gray-400">Sorry, an error occurred. <span className="text-blue-500 cursour-pointer" onClick={()=>refetch()}>Try again</span></p>
       }
       </div>
     </>
   )
 }
 
-const TasksTableData = ({tasksData, setMeetingReportOpen}) => {
+const TasksTableData = ({tasksData, selectCurrentTask, setMeetingReportOpen}) => {
   const task = {
         title: "Boarding meeting",
         status: "uncompleted",
@@ -89,7 +90,7 @@ const TasksTableData = ({tasksData, setMeetingReportOpen}) => {
           const statusColor = task.status === "completed" ? "bg-emerald-100 text-emerald-500" : "bg-amber-100 text-amber-400"
           const priorityColor = task.priority === "high" ? "bg-red-100 text-red-500" : "bg-blue-100 text-blue-400"
           return (
-            <tr key={task._id} onClick={()=>setMeetingReportOpen(true)} className="group cursor-pointer bg-white border-b hover:bg-gray-100 hover:text-black">
+            <tr key={task._id} onClick={()=>selectCurrentTask(task._id)} className="group cursor-pointer bg-white border-b hover:bg-gray-100 hover:text-black">
                 <td scope="row" className="py-2 font-medium whitespace-nowrap text-left dark:text-white">
                     <p>{task.title}</p>
                 </td>
@@ -97,12 +98,12 @@ const TasksTableData = ({tasksData, setMeetingReportOpen}) => {
                   <p className={`p-1 px-3 ${statusColor} rounded-md`}>{task.status}</p>
                 </td>
                 <td className="py-2">
-                  <p>{moment(task.date).format('ddd, Do MMM YYYY')}</p>
+                  <p>{moment(task.dueDate).format('ddd, Do MMM YYYY')}</p>
                 </td>
                 <td className="py-2 flex borderr justify-center items-center">
                   <p className={`p-1 px-3 ${priorityColor} rounded-md`}>{task.priority}</p>
                 </td>
-                <td className="text-xl text-gray-500 invisible group-hover:visible hover:text-red-500"><VscTrash/></td>
+                <td className="text-xl text-gray-500"><VscTrash className="invisible group-hover:visible hover:text-red-500"/></td>
             </tr>
           )
           })}
@@ -111,18 +112,68 @@ const TasksTableData = ({tasksData, setMeetingReportOpen}) => {
   </div>
   )
 }
+
+//  Sorting functions
+const sortByDueDate = (data) => {
+  const sortedTasks = [...data].sort((a, b) => Date.parse(b.dueDate) - Date.parse(a.dueDate))
+  return sortedTasks
+}
+
+const sortByPriority = (data) => {
+  const sortedTasks = [
+    ...[...data].filter(task => task.priority === "high"),
+    ...[...data].filter(task => task.priority !== "high")
+  ]
+  return sortedTasks
+}
+
+const sortByStatus = (data) => {
+  const sortedTasks = [
+    ...[...data].filter(task => task.status === "completed"),
+    ...[...data].filter(task => task.status !== "completed")
+  ]
+  return sortedTasks
+}
+
 const Tasks = (props) => {
-  const [newTaskModalOpen, setNewTaskModalOpen] = useState(false)
+  const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false)
   const { httpAuthGetAsync } = useApiRequests()
   const [tasks, setTasks] = useState([])
+  const [currentTask, setCurrentTask] = useState(null)
   const [meetingReportOpen, setMeetingReportOpen] = useState(false)
+  const [sortType, setSortType] = useState("")
+  const [sortResults, setSortResults] = useState([])
+  const [searchQuery, setSearchQuery] = useState("")
   const navigate = useNavigate()
+  console.log(sortResults)
 
   const { isLoading, isFetching, error, isSuccess, refetch, data} = useQuery("/tasks", ()=>httpAuthGetAsync("/tasks"))
 
-  let tasksData;
+  const runSort = (type, data) => {
+    if (type === "Due Date") {
+      return sortByDueDate(data)
+    } else if (type === "Priority") {
+      return sortByPriority(data)
+    } else if (type === "Status") {
+      return sortByStatus(data)
+    }
+  }
+
+  const handleSearch = (query, data) => {
+    const results = [...data].filter(result => result.title.includes(query))
+    return results
+  }
+
+  let tasksData = [];
   if (!isLoading && isSuccess){
     tasksData = data.tasks
+    if(sortType) {
+      console.log("using sort")
+      tasksData = runSort(sortType, data.tasks)
+    }
+    if(searchQuery) {
+      tasksData = handleSearch(searchQuery, data.tasks)
+    }
   }
 
   useEffect(() => {
@@ -132,105 +183,68 @@ const Tasks = (props) => {
 
   }, [data, isSuccess])
 
+  const handleSearchQueryOnChange = (e) => {
+    setSearchQuery(e.target.value)
+  }
 
+   const stopSort = () => {
+    setSortResults([])
+    setSortType("")
+   }
+
+  const selectCurrentTask = (id) => {
+    const task = tasks.find(task => task._id === id)
+    setCurrentTask(task)
+    setCreateTaskModalOpen(true)
+  }
 
   useEffect(() => {
-    if (newTaskModalOpen) {
+    if (createTaskModalOpen) {
       navigate("/workspace/tasks/new-task")
     } else {
       navigate("/workspace/tasks")
     }
-  }, [newTaskModalOpen])
-
-  const handleCreateTask = async (e) => {
-    e.preventDefault()
-    const taskBody = {
-      title,
-      status,
-      priority,
-      dueDate
-    }
-    try {
-      setLoading(true)
-      setAlert(null)
-      const response = await httpAuthPostAsync("/tasks", taskBody)
-      console.log(response)
-      setTasks(prev => [response.task, ...prev])
-      refetch()
-      setNewTaskModalOpen(false)
-    } catch(err) {
-      if (err.response){
-        setAlert({type: "failure", message: err.response.data.message})
-      }
-      console.log(err)
-    }
-    setLoading(false)
-    console.log(taskBody)
-  }
-  // open ? navigate("/workspace/meetings/new-meeting") : 
-  
-  // const newMeetingModal = () => {
-  //   setOpen(true)
-  //   navigate("/workspace/meetings/new-meeting")
-  // }
-
-  // const closeMeetingModal = () => {
-  //   setOpen(true)
-  //   navigate("/workspace/meetings/new-meeting")
-  // }
-  // console.log(open)
-  // const tasksData = [
-  //   {
-  //     title: "Conference to discuss new development",
-  //     status: "completed",
-  //     date: "Mar 20, 2023",
-  //     priority: "low"
-  //   },
-  //   {
-  //     title: "Negotiations with SamFields Ltd.",
-  //     status: "uncompleted",
-  //     date: "Jan 12, 2023",
-  //     priority: "high"
-  //   },
-  //   {
-  //     title: "Boarding meeting",
-  //     status: "uncompleted",
-  //     date: "Dec 12, 2022",
-  //     priority: "low"
-  //   }
-  // ]
+  }, [createTaskModalOpen])
 
   const TasksView = () => {
     if (isLoading) {
       return <TasksLoadingSpinner />
     } else if (error) {
         return <EmptyTasksView error={error} refetch={refetch} />
-    } else if (tasksData.length === 0) {
-      return <EmptyTasksView />
+    } else if (!searchQuery && tasksData.length === 0) {
+      return <EmptyTasksView text="You have no tasks. Add some?"/>
+    } else if (searchQuery && tasksData.length === 0) {
+      return <EmptyTasksView text="No tasks found for this query"/>
     }
-    return <TasksTableData tasksData={tasksData} setMeetingReportOpen={setMeetingReportOpen}/>
+    return <TasksTableData selectCurrentTask={selectCurrentTask} tasksData={tasksData} setMeetingReportOpen={setMeetingReportOpen}/>
   }
   return (
     <>
-    {/* <h1>Meetings</h1> */}
-      {/* <Toolbar /> */}
-      <SubToolbar heading="Tasks" count="3"/>
-      {/* <Outlet /> */}
+      <TasksSubToolbar  
+      heading="Tasks" 
+      count={tasksData.length} 
+      sortByDueDate={sortByDueDate} 
+      sortType={sortType} 
+      setSortType={setSortType} 
+      stopSort={stopSort}
+      searchQuery={searchQuery}
+      handleSearchQueryOnChange={handleSearchQueryOnChange}/>
       <section className="content-section">
         <NewTask
+        setCurrentTask={setCurrentTask}
+        task={currentTask}
         setTasks={setTasks}
         refetch={refetch}
-        open={newTaskModalOpen} 
-        setOpen={setNewTaskModalOpen} 
+        open={createTaskModalOpen} 
+        setOpen={setCreateTaskModalOpen} 
         />
         <MeetingReport open={meetingReportOpen} setOpen={setMeetingReportOpen} />
-        <div onClick={()=>setNewTaskModalOpen(true)} className="h-6v pl-6 pr-6 borderr border-black flex items-center gap-1 pt-2 pb-2 p-1 cursor-pointer hover:bg-blue-50 hover:text-blue-500">
-        <VscAdd className="text-blue-500"/>
-        <p className="">Add new task</p>
+        <div onClick={()=>setCreateTaskModalOpen(true)} className="h-6v pl-6 pr-6 borderr border-black flex items-center gap-1 pt-2 pb-2 p-1 cursor-pointer hover:bg-blue-50 hover:text-blue-500">
+          <VscAdd className="text-blue-500"/>
+          <p className="">Add new task</p>
         </div>
         <div className="tasks-table-container relative border border-red">
           {TasksView()}
-         
         </div>
       </section>
   </>
