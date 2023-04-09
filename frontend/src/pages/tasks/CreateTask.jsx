@@ -12,6 +12,7 @@ import useApiRequests from '../../hooks/useApiRequests'
 const todayDate = moment(moment().toDate()).format("YYYY-MM-DD")
 
 const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) => {
+    console.log(task)
     const { httpAuthPostAsync, httpAuthPutAsync } = useApiRequests()
     const [title, setTitle] = useState("")
     const [dueDate, setDueDate] = useState(todayDate)
@@ -28,6 +29,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
         setDueDate(todayDate)
         setStatus("uncompleted")
         setPriority("high")
+        setCurrentTask(null)
     }
 
     useEffect(() => {
@@ -55,7 +57,6 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
     }
 
     const handleTaskTitleValueChange = (e) => {
-        console.log(e.target.value)
         setTitle(e.target.value)
     }
     
@@ -64,12 +65,10 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
     }
     
     const handlePriorityValueChange = (e) => {
-        console.log(e.target.value)
         setPriority(e.target.value)
     }
     
     const handleStatusValueChange = (e) => {
-      console.log(e.target.value)
       setStatus(e.target.value)
     }
 
@@ -98,7 +97,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
             console.log(err)
           }
           setLoading(false)
-          console.log(taskBody)
+        //   console.log(taskBody)
     }
 
     const handleCreateTask = async (e) => {

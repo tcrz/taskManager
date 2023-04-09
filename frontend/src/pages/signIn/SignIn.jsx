@@ -41,7 +41,7 @@ import LoadingButton from "../../components/LoadingButton";
         setAuthenticated(true)
         setUser(response.user)
         setToken(response.token)
-        navigate("/workspace/dashboard")
+        navigate("/dashboard")
         console.log(response)
       } catch (err) {
         console.log(err)

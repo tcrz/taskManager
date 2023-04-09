@@ -1,8 +1,8 @@
 /* @tailwind components; */
 
-.tasks-table-container {
+.main-content-container {
     /* height: 90%; */
-    height: 85vh;
+    height: 83vh;
     /* border: 2px solid red */
     /* overflow-y: scroll; */
 }

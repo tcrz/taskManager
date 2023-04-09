@@ -19,22 +19,16 @@ const Sidebar = () => {
 
   const menuItems = [
     {
-      rootpath: "/workspace",
-      path: "/workspace/dashboard",
+      rootpath: "/dashboard",
+      path: "/dashboard",
       name: "Dashboard",
       icon: <VscDashboard />,
     },
     {
-      rootpath: "/workspace/tasks",
-      path: "/workspace/tasks",
+      rootpath: "/tasks",
+      path: "/tasks",
       name: "Tasks",
       icon: <VscNotebook />,
-    },
-    {
-      rootpath: "/workspace/policies",
-      path: "/workspace/completed",
-      name: "Completed",
-      icon: <VscTasklist />,
     },
     {
       path: "/",

@@ -210,9 +210,9 @@ const Tasks = (props) => {
 
   useEffect(() => {
     if (createTaskModalOpen) {
-      navigate("/workspace/tasks/new-task")
+      navigate("/tasks/new-task")
     } else {
-      navigate("/workspace/tasks")
+      navigate("/tasks")
     }
   }, [createTaskModalOpen])
 
@@ -260,11 +260,11 @@ const Tasks = (props) => {
         refetch={refetch}
         setOpen={setDeleteTaskModalOpen} 
         />
-        <div onClick={()=>setCreateTaskModalOpen(true)} className="h-6v pl-6 pr-6 borderr border-black flex items-center gap-1 pt-2 pb-2 p-1 cursor-pointer hover:bg-blue-50 hover:text-blue-500">
+        <div onClick={()=>setCreateTaskModalOpen(true)} className="h-8v pl-6 pr-6 borderr border-black flex items-center gap-1 pt-2 pb-2 p-1 cursor-pointer hover:bg-blue-50 hover:text-blue-500">
           <VscAdd className="text-blue-500"/>
           <p className="">Add new task</p>
         </div>
-        <div className="tasks-table-container relative border border-red">
+        <div className="main-content-container relative">
           {TasksView()}
         </div>
       </section>

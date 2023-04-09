@@ -2,15 +2,15 @@ import { useContext, useEffect, useState } from 'react'
 import { createBrowserRouter, createRoutesFromElements, Link, Navigate, Outlet, Route, RouterProvider, useNavigate } from 'react-router-dom'
 import './App.css'
 import Sidebar from './components/Sidebar'
-import WorkSpace from './pages/dashboard/WorkSpace'
 import Dashboard from './pages/dashboard/dashboard/Dashboard'
 import SignIn from './pages/signIn/SignIn'
 import { AuthContext } from './context/authContext'
 import Homepage from './pages/homepage/Homepage'
 import Register from './pages/register/Register'
-import Tasks from './pages/meetings/Tasks'
+import Tasks from './pages/tasks/Tasks'
 import { QueryClient, QueryClientProvider } from 'react-query';
-import CreateTask from './pages/meetings/CreateTask'
+import CreateTask from './pages/tasks/CreateTask'
+import WorkSpace from './pages/workspace/WorkSpace'
 
 
 function Root() {
@@ -76,16 +76,18 @@ function App() {
           <Route index element={<Homepage/>} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="*" element={<Navigate to='/sign-in' replace />} /> */}
         </>
         :
-        <Route path="/workspace" element={<WorkSpace />}>
+        <>
+        <Route path="/" element={<WorkSpace />}>
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="tasks" element={<Tasks />}>
             <Route path="new-task" element={<CreateTask />} />
           </Route>
           <Route path="*" element={<Navigate to='dashboard' replace />} />
         </Route>
+        <Route index element={<Navigate to='/dashboard' replace />} />
+        </>
         }
       </Route>
     )
