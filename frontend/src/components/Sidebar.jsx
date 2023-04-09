@@ -70,7 +70,7 @@ const Sidebar = () => {
           <div className="pl-2 pb-1 pt-2 rounded-sm flex gap-2 items-center border-t">
            {/* <img src={user} alt="user" className="w-10 h-10 rounded-full"/> */}
            <div className="rounded-full p-1 pl-3 pr-3 bg-emerald-600">
-              <p className=" text-white text-2xl">D</p>
+              <p className=" text-white text-2xl">{user.username[0].toUpperCase()}</p>
            </div>
            {open && <div className="text-sm">
               <p className="text-gray-400">{user.username}</p>
