@@ -134,7 +134,7 @@ Response:
 ```
 
 #### GET '/tasks/:id
-Fetches task with given id
+Fetches task with given id.  
 Response: 
 ```
 {
@@ -193,8 +193,8 @@ on success, the updated task is returned:
 ```
 
 #### DELETE '/tasks/:id'
-Deleltes task with given id.
-response (on success): 
+Deleltes task with given id.  
+Response (on success): 
 ```
 {
   "message": "Task deleted succesfully"

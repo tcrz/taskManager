@@ -18,6 +18,7 @@ module.exports = {
         "subtoolbar-shadow": "#e2e1e1 inset 0 20px 20px -20px"
       },
       height: {
+        "6v": "6vh",
         "7v": "7vh",
         "8v": "8vh",
         "9v": "9vh",

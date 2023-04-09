@@ -47,7 +47,7 @@ const errorHandler = (err, req, res, next) => {
             })
             break;
         default:
-            res.status(500).json({message:err.message})
+            res.status(500).json({message: "Sorry, an error occurred"})
             console.log(err.message)
             break;
     }

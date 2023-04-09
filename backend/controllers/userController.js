@@ -49,7 +49,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 email: user.email
             }
         },
-        process.env.JWT_SECRET, {expiresIn: "3m"})
+        process.env.JWT_SECRET, {expiresIn: "30000000m"})
         res.status(200).json({ message: "Login successful", token, user: {username: user.username, email: user.email} })
     } else {
         res.status(401)

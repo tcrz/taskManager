@@ -4,7 +4,7 @@ import { FaPlus, FaRegCircle, FaRegTimesCircle } from 'react-icons/fa'
 import { BiNotepad, BiTask } from "react-icons/bi";
 import MultiSelect, { options } from '../../components/MultiSelect'
 import MeetingDetails from './TaskDetails'
-import "./MeetingReport.css"
+import "./TaskView.css"
 import Select from 'react-select';
 import { RxDotFilled } from 'react-icons/rx';
 
@@ -14,7 +14,7 @@ const MeetingReport = (props) => {
   const [reportItem, setReportItem] = useState("")
   const reportInputRef = useRef(null)
   const agenda = [{value:"talk about salaries", label:"talk about salaries"}, {value:"discuss contract terms", label:"discuss contract terms"}]
-  console.log(reportInputRef.current)
+  // console.log(reportInputRef.current)
 
   useEffect(() => {
     if (toggleReportField) {

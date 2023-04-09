@@ -7,6 +7,7 @@ import { VscDashboard, VscTasklist, VscChecklist, VscNotebook, VscArrowLeft, Vsc
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true)
+  const { user } = useContext(AuthContext)
   const sidebarWidth = open ? "w-1/5" : "w-20"
   const { logOut } = useContext(AuthContext);
 
@@ -52,7 +53,7 @@ const Sidebar = () => {
             <div className={`p-2 inline-flex justify-between gap-2 mb-10 borderr-b w-full items-center border-b borrder-gray-600`}>
               {/* <FaMailBulk className={`block float-left text-4xl bg-dark-purple rounded-md`}/> */}
               {/* <h1 className={`text-2xl ${!open && "hidden"}`}>VanCorp</h1> */}
-              <p className={`text-gray-400 ${!open && "hidden"}`}>Welcome,&nbsp;user</p>
+              <p className={`text-gray-400 ${!open && "hidden"}`}>Welcome,&nbsp;{user.username}</p>
               <VscMenu onClick={()=>setOpen(prev => !prev)} className={`p-1 text-3xl cursor-pointer text-gray-400 ${!open && "rotate-180"}`}/>
             </div>
 
@@ -72,13 +73,13 @@ const Sidebar = () => {
           </div>
 
           {/* USER TAB */}
-          <div className="pl-2 pb-1 pt-2 rounded-sm flex gap-2 items-center borderr-t border-gray-700">
+          <div className="pl-2 pb-1 pt-2 rounded-sm flex gap-2 items-center border-t">
            {/* <img src={user} alt="user" className="w-10 h-10 rounded-full"/> */}
            <div className="rounded-full p-1 pl-3 pr-3 bg-emerald-600">
               <p className=" text-white text-2xl">D</p>
            </div>
            {open && <div className="text-sm">
-              <p className="text-gray-400">Damien Johnson</p>
+              <p className="text-gray-400">{user.username}</p>
               <p className="text-gray-400">User</p>
            </div>}
           

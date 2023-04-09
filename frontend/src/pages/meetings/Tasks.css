@@ -1,8 +1,10 @@
 /* @tailwind components; */
 
 .tasks-table-container {
-    height: 80%;
-    overflow-y: scroll;
+    /* height: 90%; */
+    height: 85vh;
+    /* border: 2px solid red */
+    /* overflow-y: scroll; */
 }
 
 table.tasks-table {
@@ -20,7 +22,7 @@ table.tasks-table {
     position: sticky;
     top:0;
     height: 100%;
-    background: #e5e7eb90
+    background: #e5e7ebed
 }
 
 .tasks-table th  {
@@ -36,6 +38,7 @@ table.tasks-table {
 
 .tasks-table tr {
     border: 1px solid red;
+    /* text-align: left; */
     /* border-top: 1px solid #EFEFEF;
     border-bottom: 1px solid #EFEFEF;
     border-right: 1px solid #EFEFEF; */

@@ -70,12 +70,15 @@
   }
 
   .content-section {
-    overflow-y: scroll;
-    height: 84vh;
+    /* overflow-y: scroll; */
+    height: 91vh;
     /* border: .2em solid blue */
   }
   
   /* MODAL */
+  div[data-testid|="modal"] {
+    height: 100%
+  }
 
 
   /* REACT SELECT */

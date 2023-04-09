@@ -28,7 +28,7 @@ const createTask  = asyncHandler(async (req, res) => {
     validateRequestBody(req.body, res)
     const newTask = Task({user_id: req.user._id, title, priority, status, dueDate})
     await newTask.save()
-    res.status(201).json({message: "Task created successfully"})
+    res.status(201).json({message: "Task created successfully", task: newTask})
 })
 
 //get task
