@@ -11,6 +11,8 @@ import useApiRequests from '../../hooks/useApiRequests';
 import { useQuery } from 'react-query'
 import { Spinner } from 'flowbite-react';
 import TasksSubToolbar from './TasksSubToolbar';
+import DeleteTask from './DeleteTask';
+import CreateTask from './CreateTask';
 
 const dateToStrFormat = () => {
   const date = moment(dateStr, 'YYYY-MM-DD');
@@ -75,7 +77,7 @@ const EmptyTasksView = ({text, error, refetch}) => {
   )
 }
 
-const TasksTableData = ({tasksData, selectCurrentTask, setMeetingReportOpen}) => {
+const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) => {
   const task = {
         title: "Boarding meeting",
         status: "uncompleted",
@@ -103,7 +105,7 @@ const TasksTableData = ({tasksData, selectCurrentTask, setMeetingReportOpen}) =>
                 <td className="py-2 flex borderr justify-center items-center">
                   <p className={`p-1 px-3 ${priorityColor} rounded-md`}>{task.priority}</p>
                 </td>
-                <td className="text-xl text-gray-500"><VscTrash className="invisible group-hover:visible hover:text-red-500"/></td>
+                <td className="text-xl text-gray-500"><VscTrash onClick={(e) => handleDeleteModalOpen(e, task._id)} className="invisible group-hover:visible hover:text-red-500"/></td>
             </tr>
           )
           })}
@@ -137,15 +139,16 @@ const sortByStatus = (data) => {
 
 const Tasks = (props) => {
   const [createTaskModalOpen, setCreateTaskModalOpen] = useState(false)
+  const [deleteTaskModalOpen, setDeleteTaskModalOpen] = useState(false)
   const { httpAuthGetAsync } = useApiRequests()
   const [tasks, setTasks] = useState([])
   const [currentTask, setCurrentTask] = useState(null)
-  const [meetingReportOpen, setMeetingReportOpen] = useState(false)
   const [sortType, setSortType] = useState("")
   const [sortResults, setSortResults] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const navigate = useNavigate()
-  console.log(sortResults)
+  // console.log(deleteTaskModalOpen)
+  // console.log(sortResults)
 
   const { isLoading, isFetching, error, isSuccess, refetch, data} = useQuery("/tasks", ()=>httpAuthGetAsync("/tasks"))
 
@@ -180,8 +183,15 @@ const Tasks = (props) => {
     if (isSuccess) {
       setTasks(data.tasks)
     }
-
   }, [data, isSuccess])
+
+  const handleDeleteModalOpen = (e, id) => {
+    console.log("delete modal")
+    const task = tasks.find(task => task._id === id)
+    setCurrentTask(task)
+    setDeleteTaskModalOpen(true)
+    e.stopPropagation()
+  }
 
   const handleSearchQueryOnChange = (e) => {
     setSearchQuery(e.target.value)
@@ -216,7 +226,13 @@ const Tasks = (props) => {
     } else if (searchQuery && tasksData.length === 0) {
       return <EmptyTasksView text="No tasks found for this query"/>
     }
-    return <TasksTableData selectCurrentTask={selectCurrentTask} tasksData={tasksData} setMeetingReportOpen={setMeetingReportOpen}/>
+    return (
+      <TasksTableData 
+      selectCurrentTask={selectCurrentTask}
+      tasksData={tasksData} 
+      handleDeleteModalOpen={handleDeleteModalOpen}
+      />
+    )
   }
   return (
     <>
@@ -230,7 +246,7 @@ const Tasks = (props) => {
       searchQuery={searchQuery}
       handleSearchQueryOnChange={handleSearchQueryOnChange}/>
       <section className="content-section">
-        <NewTask
+        <CreateTask
         setCurrentTask={setCurrentTask}
         task={currentTask}
         setTasks={setTasks}
@@ -238,7 +254,12 @@ const Tasks = (props) => {
         open={createTaskModalOpen} 
         setOpen={setCreateTaskModalOpen} 
         />
-        <MeetingReport open={meetingReportOpen} setOpen={setMeetingReportOpen} />
+        <DeleteTask 
+        open={deleteTaskModalOpen}
+        task={currentTask}
+        refetch={refetch}
+        setOpen={setDeleteTaskModalOpen} 
+        />
         <div onClick={()=>setCreateTaskModalOpen(true)} className="h-6v pl-6 pr-6 borderr border-black flex items-center gap-1 pt-2 pb-2 p-1 cursor-pointer hover:bg-blue-50 hover:text-blue-500">
           <VscAdd className="text-blue-500"/>
           <p className="">Add new task</p>

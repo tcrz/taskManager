@@ -1,10 +1,10 @@
 import { Spinner } from 'flowbite-react'
 import React from 'react'
 
-const LoadingButton = ({className, text, loading}) => {
+const LoadingButton = ({className, text, loading, onClick}) => {
   return (
-    <button disabled={loading} className={className}>
-      <div className="mr-3">
+    <button disabled={loading} className={className} onClick={onClick}>
+      <div className="">
         {loading && <Spinner
           size="sm"
           light={true}

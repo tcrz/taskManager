@@ -20,7 +20,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(null)
     const titleInputRef = useRef(null)
-    console.log(priority)
+    // console.log(priority)
     // console.log(titleInputRef.current)
 
     const resetFields = () => {
@@ -226,7 +226,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
     <Button color="grey" className="text-gray-400 border-none" onClick={()=>handleModalClose()}>
        Cancel
       </Button>
-      <LoadingButton type="submit" disabled={loading} loading={loading} className="'block text-sm text-white bg-blue-500 border border-blue-500 p-2 px-4 rounded-md hover:bg-blue-600 duration-150" text={task ? "Update Task" : "Create Task"} />
+      <LoadingButton type="submit" disabled={loading} loading={loading} className="block text-sm text-white bg-blue-500 border p-2 px-4 rounded-md hover:bg-blue-600 duration-150" text={task ? "Update Task" : "Create Task"} />
     </Modal.Footer>
     </form>
   </Modal>
