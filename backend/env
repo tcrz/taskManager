@@ -1,0 +1,4 @@
+PORT=<port number>
+CONNECTION_STRING=<mongodb url>
+JWT_SECRET=<secret-string-here>
+JWT_EXPIRES_IN=30
