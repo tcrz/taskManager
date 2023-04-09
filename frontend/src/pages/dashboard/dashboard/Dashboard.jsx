@@ -111,7 +111,7 @@ const Dashboard = () => {
           <p>&nbsp; &#8212; {groupBy}</p>
       </Toolbar>
       <div className="main-content-container relative flex items-center justify-around p-5">
-        {isLoading ? <Spinner/> : <Doughnut data={chartData} className="borderr"/>}
+        {isLoading ? <Spinner/> : tasksData.length !== 0 ? <Doughnut data={chartData} className="borderr"/> : <p className="text-gray-400">Not enough data to compute metrics</p>}
       </div>
     </section>
     </>
