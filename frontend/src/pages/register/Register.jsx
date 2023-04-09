@@ -11,9 +11,9 @@ import AlertLogger from "../../components/AlertLogger";
 
 const Register = () => {
   const { httpPostAsync } = useApiRequests()
-  const [username, setUsername] = useState("crzctrl")
-  const [email, setEmail] = useState("crzctrl5789@gmail.com")
-  const [password, setPassword] = useState("crzctrl5789")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(null)
 

@@ -13,8 +13,8 @@ import LoadingButton from "../../components/LoadingButton";
     // useVerifyAuth()
     const { setAuthenticated, setUser, setToken } = useContext(AuthContext);
     const { httpPostAsync } = useApiRequests()
-    const [email, setEmail] = useState("crzctrl5789@gmail.com")
-    const [password, setPassword] = useState("crzctrl5789")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const navigate = useNavigate()
