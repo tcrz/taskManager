@@ -96,6 +96,9 @@ const EmptyTasksView = ({text, error, refetch}) => {
 
 const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) => {
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 540px)' })
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 1224px)'
+  })
   return (
     <div style={{borderr: "1px solid green", height: "90%", overflowY: "scroll"}}>
     <TableHeading>
@@ -122,7 +125,7 @@ const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) =
                 </>
                 }
                 <td className="text-xl text-gray-500" style={{textAlign: isTabletOrMobile ? "right" : "center"}}>
-                  <VscTrash onClick={(e) => handleDeleteModalOpen(e, task._id)} className="invisible group-hover:visible hover:text-red-500" style={{visibility: isTabletOrMobile ? "visible" : ""}} />
+                  <VscTrash onClick={(e) => handleDeleteModalOpen(e, task._id)} className={"invisible group-hover:visible hover:text-red-500"} style={{visibility: !isDesktopOrLaptop ? "visible" : ""}}/>
                   </td>
             </tr>
           )

@@ -9,10 +9,11 @@ import { useMediaQuery } from 'react-responsive'
 
 const Sidebar = () => {
   const isNotLargeScreen = useMediaQuery({ query: '(max-width: 900px)' })
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 540px)' })
   const [open, setOpen] = useState(isNotLargeScreen ? false : true)
   console.log("sidebar open:", open)
   const { user } = useContext(AuthContext)
-  const sidebarWidth = open ? "w-1/5" : "w-20"
+  const sidebarWidth = open ? "w-1/5" : isTabletOrMobile ? "w-15" : "w-20"
   const { logOut } = useContext(AuthContext);
   
 
