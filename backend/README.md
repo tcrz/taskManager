@@ -1,13 +1,3 @@
-install express and set up app in server.js
-use nodemon to restart sever on changes
-youll need dotenv to store variables and secrets(?)
-configure your routes in a file
-setup mongodb database and collection
-connect mongoose to your mongodb via drivers
-set up your model schemas
-
-
-
 # Task Manager Backend
 
 ## Authentication
