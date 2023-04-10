@@ -13,6 +13,7 @@ import { Spinner } from 'flowbite-react';
 import TasksSubToolbar from './TasksSubToolbar';
 import DeleteTask from './DeleteTask';
 import CreateTask from './CreateTask';
+import { useMediaQuery } from 'react-responsive'
 
 const dateToStrFormat = () => {
   const date = moment(dateStr, 'YYYY-MM-DD');
@@ -21,29 +22,45 @@ const dateToStrFormat = () => {
 }
 
 const TableHeading = ({children}) => {
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 540px)' })
+  
   return (
     <table className="tasks-table w-full text-sm text-gray-500 text-center">
       <colgroup>
-          <col style={{width:"35%"}} />
-          <col style={{width:"25%"}} />
-          <col style={{width:"20%"}} />
-          <col style={{width:"20%"}} />
-          <col style={{width:"5%"}} />
+          {!isTabletOrMobile ? 
+          <>
+            <col style={{width:"35%"}} />
+            <col style={{width:"25%"}} />
+            <col style={{width:"20%"}} />
+            <col style={{width:"20%"}} />
+            <col style={{width:"5%"}} /> 
+          </>
+          :
+          <>
+            <col style={{width:"90%"}} />
+            <col style={{width:"10%"}} />
+          </>
+          }
       </colgroup>
       <thead className="text-xs text-gray-600 capitalize">
           <tr>
               <th scope="col" className="px-4 py-3 text-left" >
                   Task Name
               </th>
-              <th scope="col" className="px-4 py-3"> 
-                  Status
-              </th>
-              <th scope="col" className="px-4 py-3"> 
-                  Due Date
-              </th>
+              { !isTabletOrMobile && 
+              <>
+                <th scope="col" className="px-4 py-3"> 
+                    Status
+                </th>
+                <th scope="col" className="px-4 py-3"> 
+                    Due Date
+                </th>
+              
               <th scope="col" className="px-4 py-3"> 
                   Priority
               </th>
+              </>
+               }
               <th scope="col" className="px-4 py-3"></th>
           </tr>
       </thead>
@@ -78,12 +95,7 @@ const EmptyTasksView = ({text, error, refetch}) => {
 }
 
 const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) => {
-  const task = {
-        title: "Boarding meeting",
-        status: "uncompleted",
-        date: "Dec 12, 2022",
-        priority: "low"
-      }
+  const isTabletOrMobile = useMediaQuery({ query: '(max-width: 540px)' })
   return (
     <div style={{borderr: "1px solid green", height: "90%", overflowY: "scroll"}}>
     <TableHeading>
@@ -96,16 +108,22 @@ const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) =
                 <td scope="row" className="py-2 font-medium whitespace-nowrap text-left dark:text-white">
                     <p>{task.title}</p>
                 </td>
-                <td className={`py-2 flex borderr justify-center items-center text-center`}>
-                  <p className={`p-1 px-3 ${statusColor} rounded-md`}>{task.status}</p>
-                </td>
-                <td className="py-2">
-                  <p>{moment(task.dueDate).format('ddd, Do MMM YYYY')}</p>
-                </td>
-                <td className="py-2 flex borderr justify-center items-center">
-                  <p className={`p-1 px-3 ${priorityColor} rounded-md`}>{task.priority}</p>
-                </td>
-                <td className="text-xl text-gray-500"><VscTrash onClick={(e) => handleDeleteModalOpen(e, task._id)} className="invisible group-hover:visible hover:text-red-500"/></td>
+                { !isTabletOrMobile && 
+                <>
+                  <td className={`py-2 flex borderr justify-center items-center text-center`}>
+                    <p className={`p-1 px-3 ${statusColor} rounded-md`}>{task.status}</p>
+                  </td>
+                  <td className="py-2">
+                    <p>{moment(task.dueDate).format('ddd, Do MMM YYYY')}</p>
+                  </td>
+                  <td className="py-2 flex borderr justify-center items-center">
+                    <p className={`p-1 px-3 ${priorityColor} rounded-md`}>{task.priority}</p>
+                  </td>
+                </>
+                }
+                <td className="text-xl text-gray-500" style={{textAlign: isTabletOrMobile ? "right" : "center"}}>
+                  <VscTrash onClick={(e) => handleDeleteModalOpen(e, task._id)} className="invisible group-hover:visible hover:text-red-500" style={{visibility: isTabletOrMobile ? "visible" : ""}} />
+                  </td>
             </tr>
           )
           })}
@@ -143,7 +161,7 @@ const Tasks = (props) => {
   const { httpAuthGetAsync } = useApiRequests()
   const [tasks, setTasks] = useState([])
   const [currentTask, setCurrentTask] = useState(null)
-  const [sortType, setSortType] = useState("")
+  const [sortType, setSortType] = useState("Default")
   const [sortResults, setSortResults] = useState([])
   const [searchQuery, setSearchQuery] = useState("")
   const navigate = useNavigate()
@@ -152,6 +170,11 @@ const Tasks = (props) => {
 
   const { isLoading, isFetching, error, isSuccess, refetch, data} = useQuery("/tasks", ()=>httpAuthGetAsync("/tasks"))
 
+  const stopSort = () => {
+    setSortResults([])
+    setSortType("")
+   }
+
   const runSort = (type, data) => {
     if (type === "Due Date") {
       return sortByDueDate(data)
@@ -159,6 +182,8 @@ const Tasks = (props) => {
       return sortByPriority(data)
     } else if (type === "Status") {
       return sortByStatus(data)
+    } else if (type === "Default") {
+      return data
     }
   }
 
@@ -196,11 +221,6 @@ const Tasks = (props) => {
   const handleSearchQueryOnChange = (e) => {
     setSearchQuery(e.target.value)
   }
-
-   const stopSort = () => {
-    setSortResults([])
-    setSortType("")
-   }
 
   const selectCurrentTask = (id) => {
     const task = tasks.find(task => task._id === id)
@@ -257,6 +277,7 @@ const Tasks = (props) => {
         <DeleteTask 
         open={deleteTaskModalOpen}
         task={currentTask}
+        setCurrentTask={setCurrentTask}
         refetch={refetch}
         setOpen={setDeleteTaskModalOpen} 
         />

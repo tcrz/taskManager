@@ -21,7 +21,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(null)
     const titleInputRef = useRef(null)
-    // console.log(priority)
+    console.log(title)
     // console.log(titleInputRef.current)
 
     const resetFields = () => {
@@ -42,6 +42,11 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
             setDueDate(moment(task.dueDate).format('YYYY-MM-DD'))
             setStatus(task.status)
             setPriority(task.priority)
+        } else {
+            setTitle("")
+            setDueDate(todayDate)
+            setStatus("uncompleted")
+            setPriority("high")
         }
         
     }, [task])
@@ -149,7 +154,7 @@ const CreateTask = ({setCurrentTask, task, setTasks, open, setOpen, refetch}) =>
                 id="task-title"
                 type="text"
                 placeholder="Enter task title"
-                // required={true}
+                required={true}
                 onChange={handleTaskTitleValueChange}
                 value={title}
                 />

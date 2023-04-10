@@ -69,7 +69,9 @@ const sortByDueDate = (data) => {
 
 const sortByPriority = (data) => {
   const sortedTasks = [
+    //retrive all tasks with high priority
     ...[...data].filter(task => task.priority === "high"),
+    //retrive all tasks with low (not high) priority
     ...[...data].filter(task => task.priority !== "high")
   ]
   return sortedTasks
@@ -77,7 +79,9 @@ const sortByPriority = (data) => {
 
 const sortByStatus = (data) => {
   const sortedTasks = [
+    // retrive all tasks with completed status
     ...[...data].filter(task => task.status === "completed"),
+    // retrive all tasks with uncompleted (not completed) status
     ...[...data].filter(task => task.status !== "completed")
   ]
   return sortedTasks

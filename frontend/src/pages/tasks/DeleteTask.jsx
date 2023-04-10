@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import LoadingButton from '../../components/LoadingButton'
 import useApiRequests from '../../hooks/useApiRequests'
 
-const DeleteTask = ({task, refetch, open, setOpen}) => {
+const DeleteTask = ({task, setCurrentTask, refetch, open, setOpen}) => {
     const [loading, setLoading] = useState(false)
     const { httpAuthDeleteAsync } = useApiRequests()
     const [alert, setAlert] = useState(null)
@@ -14,6 +14,7 @@ const handleDeleteTask = async () => {
         setAlert(null)
         const response = await httpAuthDeleteAsync(`/tasks/${task._id}`)
         console.log(response)
+        setCurrentTask(null)
         refetch()
         setOpen(false)
     } catch(err) {
