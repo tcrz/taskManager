@@ -7,6 +7,7 @@ import { VscEye } from "react-icons/vsc";
 import LoadingButton from "../../components/LoadingButton";
 import useApiRequests from "../../hooks/useApiRequests";
 import AlertLogger from "../../components/AlertLogger";
+import { useMediaQuery } from 'react-responsive'
 
 
 const Register = () => {
@@ -16,6 +17,7 @@ const Register = () => {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState(null)
+  const isNotLargeScreen = useMediaQuery({ query: '(max-width: 900px)' })
 
   const resetFields = () => {
     setUsername("")
@@ -59,7 +61,7 @@ const Register = () => {
   return (
     <form onSubmit={handleRegisterUser} autocomplete={false}>
       <div className="h-screen bg-dark-bluee flex justify-around items-center">
-        <div className='borderr p-3 px-6 flex flex-col gap-4 flex-start bg-gray-100 drop-shadow-md' style={{width: "30%", maxWidth: "60%"}}>
+        <div className='borderr p-3 px-6 flex flex-col gap-4 flex-start bg-gray-100 drop-shadow-md' style={{width: isNotLargeScreen ? "60%" : "30%"}}>
         {alert && <AlertLogger type={alert.type} message={alert.message}/>}
         <div>
             <Label className="main-label" htmlFor="username" value="Username"/>

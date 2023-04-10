@@ -8,7 +8,7 @@ const Homepage = () => {
   useVerifyAuth()
   return (
     <div className="h-screen bg-gray-100 flex flex-col justify-around items-center">
-      <div className="flex flex-col items-center text-center borrder">
+      <div className="flex flex-col items-center text-center border">
         <div className="flex gap-1">
           <VscNotebook className="text-5xl text-blue-500"/>
           <h1 className="mb-10 block text-5xl font-bold text-blue-500">
