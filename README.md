@@ -1,5 +1,5 @@
 # TaskManager
-An app that allows users to manage their tasks. Frontend built with React, Tailwind and Flowbite components.  Backend built with Node/Express and MongoDB.
+An app that allows users to manage their tasks. Frontend built with React, Tailwind and Flowbite components.  Backend built with Node/Express and MongoDB.  
 <a href="https://taskmanaja.netlify.app" target="_blank">Live demo</a>
 
 ## About the project

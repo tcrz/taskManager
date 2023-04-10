@@ -117,7 +117,7 @@ const TasksTableData = ({tasksData, selectCurrentTask, handleDeleteModalOpen}) =
 
 //  Sorting functions
 const sortByDueDate = (data) => {
-  const sortedTasks = [...data].sort((a, b) => Date.parse(b.dueDate) - Date.parse(a.dueDate))
+  const sortedTasks = [...data].sort((a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate))
   return sortedTasks
 }
 
@@ -163,7 +163,7 @@ const Tasks = (props) => {
   }
 
   const handleSearch = (query, data) => {
-    const results = [...data].filter(result => result.title.includes(query))
+    const results = [...data].filter(result => result.title.toLowerCase().includes(query))
     return results
   }
 
